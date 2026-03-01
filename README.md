@@ -15,14 +15,12 @@ More important than any presctriptive opinion is the ability to trace it back to
 ## Sources
 
 - A Philosophy of Software Design
-- A Philosophy of Software Design vs Clean Code
-- Worse is Better
-- The Grug Brained Developer
-- Codin' dirty
-- Unit Testing Principles
-- Balancing Coupling in Software Design
-
-FIXME add links
+- [A Philosophy of Software Design vs Clean Code](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+- [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
+- [The Grug Brained Developer](https://grugbrain.dev/)
+- [Codin' dirty](https://htmx.org/essays/codin-dirty/)
+- [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
+- [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
 
 ## Design Principles and Assumptions
 
@@ -136,5 +134,6 @@ TODO: good/bad
 
 ## Tests
 
-- TODO https://olano.dev/blog/unit-testing-principles/
-- TODO https://olano.dev/blog/what-i-think-i-know-about-testing/
+TODO write based on
+- https://olano.dev/blog/unit-testing-principles/
+- https://olano.dev/blog/what-i-think-i-know-about-testing/
