@@ -4,7 +4,7 @@
 
 This is a brain dump of my current coding preferences. I try to adhere to these in personal projects and I try to subtly move team projects in this direction when it's not disruptive.
 
-I occassionally find myself sending LLMs to read one of my blog posts before starting some task (e.g. for testing conventions), so rather than crafting weird `AGENTS.md` files I though why not make a human readable guide to refer to. If it's human-readable enough surely Claude can handle it.
+I occassionally find myself sending LLMs to read one of my blog posts before starting some task (e.g. for testing conventions), so rather than crafting weird `AGENTS.md` files I thought why not make a human readable guide to refer to. If it's human-readable enough surely Claude can handle it.
 
 Why even bother with sytle if it looks like we won't be writing much code anymore? Maybe we won't, but it's likely that we still have to read a lot of it, so I'd rather have the LLMs follow my preferences. I also posit that better style makes better design, and better design leads to better quality LLM output. And if it does turn out that [we won't need](https://olano.dev/blog/dangerously-skip/) to even read code anymore, then indulge me on this, my own personal farewell to that side of the craft.
 
@@ -58,6 +58,15 @@ FIXME add links
 - In most cases it's better to group components by domain relevance than by its technical attributes
   - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
   - e.g. put the employee type enum next to the employee demol, not next to other project enums
+
+- A README should at the very least answer: what is this and why is this necessary.
+- A README should ideally also answer:
+  - how do I build it
+  - how do I run it
+  - how do I test it
+  - how do I deploy it
+- The preferred answers to those questions are: `make build`, `make run`, `make test` and `make deploy`
+  - Makefiles are preferable to literal instructions, language-specific build tool commands, ad hoc scripts.
 
 ## File contents
 
@@ -127,5 +136,5 @@ TODO: good/bad
 
 ## Tests
 
-TODO https://olano.dev/blog/unit-testing-principles/
-TODO https://olano.dev/blog/what-i-think-i-know-about-testing/
+- TODO https://olano.dev/blog/unit-testing-principles/
+- TODO https://olano.dev/blog/what-i-think-i-know-about-testing/
