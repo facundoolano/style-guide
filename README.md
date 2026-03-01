@@ -2,11 +2,15 @@
 
 ## Introduction
 
-- why bother if we won't be writing code anymore? maybe we won't, but it's likely that we still have to read a lot of it, so we might as well have a resource to point the LLMs so they write closer to our preferences. I also posit that better style makes better design, and better design leads to better quality in the output of LLMs. And if it turns out that we won't need to read code anymore, indulge me on this, my own personal farewell to that aspect of the craft.
+This is a brain dump of my current coding preferences. I try to adhere to these in personal projects and I try to subtly nudge team projects in this direction when it's not disruptive.
 
-- why so much discussion about software design in a style guide: style is a spectrum that goes from trivial formatting decisions (tabs vs spaces, max line length, etc) to software design related decisions (how to distribute code across files is directly related to how the system is modularized; how we name concepts strongly influece how we understand, communicate about, and modify the system, etc).
-  - the automatable aspects should be automated and are not worth discussing
-  - it's the bits that spill into design that are worth being opinionated about. And more important than any prescription is the ability to trace it back to some agreed upon principle that justify them. opinions are made to be changed and only to trace back to common ground is that we can prevent being dogmatic and evolve our understanding.
+I occassionally found myself sending LLMs to read one of my blog posts before starting some task (e.g. for testing conventions), so rather than crafting weird `AGENTS.md` files I though why not make a human readable guide to refer to. If it's human-readable enough surely Claude can handle it.
+
+Why even bother with sytle if it looks like we won't be writing much code anymore? Maybe we won't, but it's likely that we still have to read a lot of it, so I'd rather have the LLMs follow my preferences. I also posit that better style makes better design, and better design leads to better quality output from LLMs. And [if it does turn out](https://olano.dev/blog/dangerously-skip/) that we won't need to even read code anymore, then indulge me on this, as my own personal farewell to that aspect of the craft.
+
+Why so much discussion about software design in a style guide: I think that style is a spectrum that goes from trivial formatting decisions (tabs vs spaces, max line length, etc) to software design decisions. The automatable aspects should be just automated and are not worth discussing. It's the bits that spill into design that are worth being opinionated about: how we distribute code across files directly maps to system modularization; how we name thing strongly influeces how we understand, communicate about, and modify the system, and so on.
+
+More important than any presctriptive opinion is the ability to trace it back to some agreed upon principle. Opinions are made to be changed, and only by going back to common ground can we evolve our understanding and prevent dogmatism.
 
 ## Sources
 
@@ -42,16 +46,20 @@
 - Locality of Behavior often beats Separation of Concerns
 - Code duplication is not necessarily a problem, knowledge duplication always is.
 
+- The right style is the preexisting style in the project, if there's one. If there isn't, refer to this document.
+
 ## Project and directory structure
 
-- The directory structure should be intentional and meaninful
+- The project codebase is a module, with its top level files (README, project.json, etc.) acting as the interface.
+
+- The directory structure of a project should be intentional and meaninful.
 
 - In most cases it's better to group components by their domain than by its technical features
   - eg put the employee enum next to the employee data structure, not next to other enums
       - [in reader terms: I will want to more frequently look at the employee together with the enum than to all project enums as a group]
   - e.g. put django forms declarations and fastapi request models next to their corresponding endpoints, as they constitute the same HTTP interface, instead of keeping separate forms/ and schemas/ packages.
 
-## File structure
+## File contents
 
 - File contents should be readable from top to bottom
   - this means that important (higher level) stuff should come first
@@ -74,11 +82,12 @@
 TODO: good/bad
 
 - Names:
-  - method should assume the classname as its namespace
-  - if the language supports it, function should preferably assume the classname as its namespace
-  - names should be meaningful
-      - short names are not necessarily bad
-      - excessively long names are distracting
+  - when naming functions and methods, take into accout how they will be used.
+    - method should assume the classname as its namespace
+    - if the language supports it, function should preferably assume the classname as its namespace
+      - names should be meaningful
+        - short names are not necessarily bad
+        - excessively long names are distracting
 
 TODO: good/bad
 
