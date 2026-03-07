@@ -83,28 +83,27 @@ More important than any presctriptive opinion is the ability to trace it back to
   TODO: good/bad example
 
 ### Names
-- when naming functions and methods, take into accout how they will be used.
-    - method should assume the classname as its namespace
-    - if the language supports it, function should preferably assume the module name as its namespace. i.e. `employee.create` not `employee.create_employee`
-- names should be meaningful and chosen deliberately
-    - short names are not necessarily bad
-    - excessively long names are distracting
-    - natural names allow to reason by analogy
-    - synthetic names prevent ambiguity
+- when naming functions and methods, consider how they will called.
+    - Methods should assume the class/instance name as its namespace, i.e. `employee.create` not `employee.create_employee`.
+    - Similarly, if the language supports it, functions should preferably assume the module name as its namespace.
+- Names should be meaningful and chosen deliberately.
+    - Short names are not necessarily bad.
+    - Excessively long names are distracting.
+    - Natural names allow to reason by analogy and synthetic names prevent ambiguity, shoose accordingly[EoC].
 
 ## Implementation
 
 - Code duplication is not necessarily a problem, knowledge duplication probably is.
-  - removing duplicated code is not a good reason to introduce an abstraction.
-  - encapsulating knowledge (aka hiding information) may be a good reason to introduce an abstraction
+  - Removing duplicated code is not a good reason to introduce an abstraction.
+  - Encapsulating knowledge (aka hiding information) may be a good reason to introduce an abstraction.
 
-- Don't extract short, single use helper functions.
-  - a short code block leaded by a clarifying comment does a better job.
+- Don't extract short, single use helper functions [APoSD][CD].
+  - A short code block leaded by a clarifying comment does a better job.
 
-- Use whitespace deliberately, for instance to separate blocks of code within a large function.
+- Use whitespace deliberately, for instance to separate blocks of code within a large function  [APoSD].
 
 ### Comments
-- Comments are not a smell, they are a tool for communication
+- Comments are not a smell, they are an aid for communication.
 - Comments should complement the code, not repeat it (they should capture implementor intent---the why, not the what)
 - TODO and FIXME comments are an extremely valuable tool to capture current understanding and intent.
   - It's not always convenient to prusue the best implementation, "the right thing", but its useful and cheap to document what we currently understand a better implementation would be, or what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if they are still relevant concerns and maybe execute the suggested improvements as part of other related work.
@@ -126,9 +125,9 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Tests
 
-- Prefer integration tests to unit tests.
-- There should be one integration test for each meaningful business/domain rule in the project.
-  - the test name and its docstring should reflect this (and not reiterate the test implementation), so one can ignore the implementation and get an aproximated use case specification:
+- Prefer integration tests to unit tests[CD][grug].
+- There should be one integration test for each meaningful business/domain rule in the project [UTP].
+  - The test name and its docstring should capture that domain knowledge, so one can ignore the implementation and get an aproximated use case specification:
   ```python
   def test_login_no_verified_fails(self, client):
         "Unverified users cannot log in."
@@ -140,15 +139,14 @@ More important than any presctriptive opinion is the ability to trace it back to
         "Login fails with an error message when entering a wrong password."
         # ...
   ```
-  - this also means that tests that aren't meaningful should be removed/refactored
 - Unit tests should be left for pieces of code that need to be exercised in all of its variations, are complicated to setup, or would be too distracting if exercised as integration tests: complex algorithms, state machine transitions, etc.
 
-- Not all code needs to have a test.
+- Not all code needs to have a test [UTP].
   - Trivial code should not be tested.
   - Layers covered by integration tests should not be unit tested.
   - External dependencies should not be tested, except as part of overarching integration tests.
-- Code coverage should only be used to highlight detect untested areas, not as a target or indicator of quality.
-- It's not ok to have conditional code in tests. Split into different tests.
+- Code coverage should only be used to highlight detect untested areas, not as a target or indicator of quality [UTP].
+- Test code shouldn't have conditionals (`if`). Split into separate tests.
 
 ### Mocks
 - never mock intermediate layers of the code, only observable behavior, e.g. system inputs and outputs.
