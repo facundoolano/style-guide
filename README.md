@@ -21,8 +21,8 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Worse may be better. [WiB][grug]
 1. The primary concern of the code writer needs to be the experience of future code readers.
     - Never sacrifice reader understanding for writer convenience.
-1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
-      - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
+1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is it here?".
+      - If these questions are hard to answer it could mean that: the names should be improved, docstrings or comments are missing, the component should be absorbed by another one, or it shouldn't exist at all.
 1. Simplicity is the most important consideration in a design. [WiB][APoSD]
     - A system is simple when its design is easy to understand and change.
     - Essential complexity is inherent the problem being solved. Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem. [NSB]
@@ -71,28 +71,28 @@ More important than any presctriptive opinion is the ability to trace it back to
   - The ordering of things of equal importance within a file is another opportunity to convey meaning.
     - e.g. implement the create operation before the delete operation.
 
-## Module Interface
+## Interface
 
-- Docstrings (i.e. public interface comments):
-    - Docstrings are part of the interface of a module.
-    - Docstrings should not reiterate the rest of the interface but complement it.
-      - If arguments are self-evident, don't list them.
-    - Docstrings should not reveal implementation details.
-    - Docstrings are the best means to capture domain knowledge of the project.
+### Docstrings (i.e. public interface comments)
+- Docstrings are part of the interface of a module.
+- Docstrings should not reiterate the rest of the interface but complement it.
+  - If arguments are self-evident, don't list them.
+- Docstrings should not reveal implementation details.
+- Docstrings are the best means to capture domain knowledge of the project.
 
-TODO: good/bad
+  TODO: good/bad example
 
-- Names:
-  - when naming functions and methods, take into accout how they will be used.
-      - method should assume the classname as its namespace
-      - if the language supports it, function should preferably assume the module name as its namespace. i.e. `employee.create` not `employee.create_employee`
-  - names should be meaningful and chosen deliberately
-      - short names are not necessarily bad
-      - excessively long names are distracting
-      - natural names allow to reason by analogy
-      - synthetic names prevent ambiguity
+### Names
+- when naming functions and methods, take into accout how they will be used.
+    - method should assume the classname as its namespace
+    - if the language supports it, function should preferably assume the module name as its namespace. i.e. `employee.create` not `employee.create_employee`
+- names should be meaningful and chosen deliberately
+    - short names are not necessarily bad
+    - excessively long names are distracting
+    - natural names allow to reason by analogy
+    - synthetic names prevent ambiguity
 
-## Module Implementation
+## Implementation
 
 - Code duplication is not necessarily a problem, knowledge duplication probably is.
   - removing duplicated code is not a good reason to introduce an abstraction.
@@ -103,23 +103,23 @@ TODO: good/bad
 
 - Use whitespace deliberately, for instance to separate blocks of code within a large function.
 
-- Comments:
-    - comments are not a smell, they are a tool for communication
-    - comments should complement the code, not repeat it (they should capture implementor intent---the why, not the what)
-    - TODO and FIXME comments are an extremely valuable tool to capture current understanding and intent.
-      - it's not always convenient to prusue the best implementation, "the right thing", but its useful and cheap to document what we currently understand a better implementation would be, or what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if they are still relevant concerns and maybe execute the suggested improvements as part of other related work.
-      - in evnironments where FIXME and TODO notes are considered a smell, a compromise can be to file a ticket and include the ticket number in the comment (but this should not replace the comment text!)
+### Comments
+- Comments are not a smell, they are a tool for communication
+- Comments should complement the code, not repeat it (they should capture implementor intent---the why, not the what)
+- TODO and FIXME comments are an extremely valuable tool to capture current understanding and intent.
+  - It's not always convenient to prusue the best implementation, "the right thing", but its useful and cheap to document what we currently understand a better implementation would be, or what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if they are still relevant concerns and maybe execute the suggested improvements as part of other related work.
+  - In evnironments where FIXME and TODO notes are considered a smell, a compromise can be to file a ticket and include the ticket number in the comment (but this should not replace the comment text!)
 
-- Constants:
-  - The presence of magic numbers and other literal values is not enough reason to externalize constants, especially not globally shared constants.
+### Constants
+- The presence of magic numbers and other literal values is not enough reason to externalize constants, especially not globally shared constants.
     - A constant declaration at the top of the function implementation that uses it may suffice
     - If it needs to be accessed from multiple places within a module, put it at the top of that module.
-  - A constants module is a red flag, and should only house things that genuinely need to to be used at multiple places in an app and are not expected to change.
-      - Ask yourself if the modules couldn't be rearrange to remove the constant.
-      - Ask yourself it the constant shouldn't be a configurable app setting instead.
+- A constants module is a red flag, and should only house things that genuinely need to to be used at multiple places in an app and are not expected to change.
+    - Ask yourself if the modules couldn't be rearrange to remove the constant.
+    - Ask yourself it the constant shouldn't be a configurable app setting instead.
 
-- Type specifications
-  - Don't sacrifice reader understanding for writer convenience (type linting and autocomplete)
+### Type specificications
+- Don't sacrifice reader understanding for writer convenience (type linting and autocomplete)
     - Input and return type specs improve readability and can reduce the need of clarifying docstring.
     - Awkward twists of inheritance chains and framework internals to satisfy the checker hurt readability and thuse are worse than no type specs at all.
     - Prefer to loosen checker strictness to sprinkling the codebase with checker rule ignores
@@ -162,7 +162,7 @@ TODO: good/bad
 - start each test with an empty database (unless that becomes unbearably slow).
 - prefer to build the test data through the public interface of the app, as opposed to injecting necessary values directly in the database through other means.
 
-### Test data and helper functions
+### Test helpers
 
 - Don't use imported constants and enums in the tests, those are internals. The literals are the system observable behavior, use that.
 
@@ -179,6 +179,7 @@ TODO: good/bad
   - don't use `create_user` when the test targets user creation.
 
 - Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db sessions, and request library mocks. Don't use them to build payloads.
+
 ## Sources
 
 TODO: finish inlining key takeaways
