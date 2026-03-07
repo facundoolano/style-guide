@@ -16,13 +16,18 @@ More important than any presctriptive opinion is the ability to trace it back to
 ## Sources
 
 TODO: inline key takeaways
+TODO: move take aways to their corresponding sections, with the reference codes.
+TODO: move the sources to the bottom with reference anchors
 
 - [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
+  - add out of the tar pit
 - [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+- [x] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
+  - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
+  - The system dies if no one possesses that mental model anymore.
 - [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
-    - Simplicity: the design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
     - Correctness: the design must be correct in all observable aspects. It is slightly better to be simple than correct.
-    - Completeness: the design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In fact, completeness must be sacrificed whenever implementation simplicity is jeopardized.
+    - Completeness: the design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever implementation simplicity is jeopardized.
     - Consistency: the design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either implementational complexity or inconsistency.
 - [ ] [The Grug Brained Developer](https://grugbrain.dev/)
 - [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
@@ -40,18 +45,22 @@ TODO: inline key takeaways
 
 ## Design Principles and Assumptions
 
-TODO: move up the pieces directly derived from th sources
-
 - The primary concern of the code writer needs to be the experience of future code readers.
+  - Never sacrifice reader understanding for writer convenience.
 - For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
   - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
-- Accidental complexity needs to be removed, essential complexity needs to be managed.
+- TODO complexity
+  - Accidental complexity needs to be removed, essential complexity needs to be managed.
+  - Essential complexity may be removed by redefining the problem.
+- Code is a liability, not an asset. Other things (complexity, economic consideration) being equal, the less code the better.
+- Worse may be better [WiB].
+
 - Modularity is the primary tool to manage complexity.
   - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
-- Modules should be deep.
+- Modules should be deep [APoSD].
   - Interface complexity costs more than implementation complexity.
   - Reducing local complexity at the expense of global complexity is usually not a good trade off.
-  - Breaking modules apart typically increases interface complexity.
+  - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
   - Shallow and pass-through modules are a red flag.
 - Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers.
 - [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns
@@ -63,10 +72,10 @@ TODO: move up the pieces directly derived from th sources
 - The project codebase is a module, with its top level files (README, project.json, etc.) acting as the interface.
 
 - The internal directory structure of a project should be deliberate and meaningful.
-
-- In most cases it's better to group components by domain relevance than by its technical attributes
-  - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
-  - e.g. put the employee type enum next to the employee model, not next to other project enums
+  - Things that need to be frequently read together should be spacially close together.
+  - In most cases it's better to group components by domain relevance than by its technical attributes
+    - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
+    - e.g. put the employee type enum next to the employee model, not next to other project enums
 
 - A README should at the very least answer: what is this and why is this necessary.
 - A README should ideally also answer:
@@ -138,17 +147,12 @@ TODO: good/bad
 TODO: good/bad
 
 - Type specifications
-  - If you care about fully fledged type spefications, maybe you shouldn't use a dynamic language.
-  - If you use a dynamic language, the readability rule applies: don't sacrifice reader understanding for writer convenience (type linting and autocomplete)
-    - If you have to sprinkle your codebase with cheker rule ignores, maybe you shouldn't enforce those checks so strictly.
+  - Don't sacrifice reader understanding for writer convenience (type linting and autocomplete)
     - Input and return type specs improve readability and can reduce the need of clarifying docstring.
     - Awkward twists of inheritance chains and framework internals to satisfy the checker hurt readability and thuse are worse than no type specs at all.
+    - Prefer to loosen checker strictness to sprinkling the codebase with checker rule ignores
 
 ## Tests
-
-TODO write based on
-- https://olano.dev/blog/unit-testing-principles/
-- https://olano.dev/blog/what-i-think-i-know-about-testing/
 
 - Prefer integration tests to unit tests.
 - There should be one integration test for each meaningful business/domain rule in the project.
@@ -166,33 +170,33 @@ TODO write based on
   ```
   - this also means that tests that aren't meaningful should be removed/refactored
 - Unit tests should be left for pieces of code that need to be exercised in all of its variations, are complicated to setup, or would be too distracting if exercised as integration tests: complex algorithms, state machine transitions, etc.
-- It's ok to parametrize unit tests.
+
+- Not all code needs to have a test.
+  - Trivial code should not be tested.
+  - Layers covered by integration tests should not be unit tested.
+  - External dependencies should not be tested, except as part of overarching integration tests.
+- Code coverage should only be used to highlight detect untested areas, not as a target or indicator of quality.
 - It's not ok to have conditional code in tests. Split into different tests.
-- Don't unit test what's already covered by integration tests.
-- Trivial code should not be tested.
-- External dependency code should not be tested, except as part of a higher level integration.
 
-- Code coverage should only be used to highlight what's not being tested, not as a target or indicator of quality.
-
-
-- never mock intermediate layers of the code, only observable behavior, e.g. outgoing requests.
+### Mocks
+- never mock intermediate layers of the code, only observable behavior, e.g. system inputs and outputs.
   - leverage mock libraries for this purpose, e.g. responses for requests, respx for httpx.
     - i.e. a refactor from `requests.request(url, method='GET')` to `requests.get(url)` should not break a test.
     - if there is no such library, try to test at the lowest possible layer to preserve resistance to refactoring.
 
 ### Database
-- don't mock the database
+- Don't mock the database.
 - use the same db setup as in the production application.
 - start each test with an empty database (unless that becomes unbearably slow).
 - prefer to build the test data through the public interface of the app, as opposed to injecting necessary values directly in the database through other means.
 
-### Test helpers and mock data
+### Test data and helper functions
 
 - Don't use imported constants and enums in the tests, those are internals. The literals are the system observable behavior, use that.
 
-- when the payloads are short, is better to inline them in each test for readability.
-- when payloads are big enough to be distracting, extract them to a helper at the bottom of the file.
-- helpers should be extracted to a seprate module only if they are generic enough to be relevant to multiple test scenarios.
+- when the payloads are short, it's better to inline and repeat them in each test for readability.
+- when payloads are big enough to distract from the purpose of the test, extract them to a helper at the bottom of the file.
+- helpers should be extracted to a separate module only if they are generic enough to be relevant to multiple test scenarios.
   - if the helper is needed in a single module, keep it there
   - don't overcomplicate the helper to satisfy multiple testing scenarios; keep separate versions on the corresponding modules.
 
@@ -202,4 +206,4 @@ TODO write based on
 - don't use helpers to test the operation being encapsulated.
   - don't use `create_user` when the test targets user creation.
 
-- Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db_sessions, and request library mocks. Don't use them to build payloads.
+- Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db sessions, and request library mocks. Don't use them to build payloads.
