@@ -15,7 +15,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Design Principles and Assumptions
 
-- Code is a liability, not an asset. Other things being equal (complexity, economic incentives), the less code the better.
+- Code is a liability, not an asset. Other things being equal (readability, complexity, economic incentives), the less code the better.
 - The right style is the preexisting style in the project, if there's one. If there isn't, refer to this document.
 - The primary concern of the code writer needs to be the experience of future code readers.
   - Never sacrifice reader understanding for writer convenience.
@@ -193,7 +193,24 @@ TODO: add anchors
   - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
   - The system dies if no one possesses that mental model anymore.
 - [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html) [WiB]
-- [ ] [The Grug Brained Developer](https://grugbrain.dev/) [grug]
+- [x] [The Grug Brained Developer](https://grugbrain.dev/) [grug]
+  - "No" is the best tool against complexity. Say it to unnecessary features, abstractions, and over-engineering.
+  - When you can't say no, deliver 80% of the value with 20% of the code.
+    - Project managers often forget requirements or move on — the 80/20 usually serves their real interests anyway.
+  - Don't factor code too early. Wait for the system's shape to emerge.
+  - Don't write tests before you understand the problem or domain. Write them after prototyping, when the code has proven itself.
+  - Integration tests are the sweet spot: high-level enough to verify correctness, low-level enough to diagnose failures.
+  - Mocking provides limited value. If you must mock, use only coarse-grained mocks.
+  - Don't remove or drastically change code without understanding why it exists.
+  - Respect working systems even when imperfect.
+  - About microservices: introducing a network call between subsystems adds tremendous complexity without necessarily solving the underlying factoring problem.
+  - Over-abstraction in type systems makes simple tasks unnecessarily difficult.
+  - Don't minimize lines of code at the expense of readability.
+  - Good APIs reduce cognitive load. Bad APIs force users to think about implementation details.
+  - Design for usage, not implementation.
+  - Place methods on the objects they operate on.
+  - Common operations should not require unnecessary intermediate steps (e.g., don't force stream conversion just to filter a list).
+  - Return types that match user expectations (a filtered list should return a list, not a stream).
 - [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
    - (Some) big functions are good, actually
    - Prefer integration tests to unit tests
