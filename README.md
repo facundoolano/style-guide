@@ -15,31 +15,29 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Design Principles and Assumptions
 
-- Code is a liability, not an asset. Other things being equal (readability, complexity, economic incentives), the less code the better.
-- The right style is the preexisting style in the project, if there's one. If there isn't, refer to this document.
-- The primary concern of the code writer needs to be the experience of future code readers.
-  - Never sacrifice reader understanding for writer convenience.
-  - For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
-    - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
-- Reducing complexity is the most important element of software design. [APoSD]
-  - A system is simple when its design is easy to understand and change.
-  - Essential complexity is inherent the problem being solved. Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem. [NSB]
-  - Accidental complexity needs to be minimized, essential complexity needs to be managed.
-  - Essential complexity [may be removed](https://olano.dev/blog/a-note-on-essential-complexity/) by redefining the problem.
-- Modularity is the primary tool to manage complexity.
-  - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
-  - Modules should be deep <sup>[APoSD]</sup>.
+1. The right style is the preexisting, agreed upon, style in the project, if there's one. If there isn't, refer to this document.
+1. Code is a liability, not an asset.
+    - Other things being equal (readability, complexity, economic incentives), the less code the better.
+    - Worse may be better. [WiB][grug]
+1. The primary concern of the code writer needs to be the experience of future code readers.
+    - Never sacrifice reader understanding for writer convenience.
+1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
+      - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
+1. Simplicity is the most important consideration in a design. [WiB][APoSD]
+    - A system is simple when its design is easy to understand and change.
+    - Essential complexity is inherent the problem being solved. Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem. [NSB]
+    - Accidental complexity needs to be minimized, essential complexity needs to be managed.
+    - Essential complexity [may be removed](https://olano.dev/blog/a-note-on-essential-complexity/) by redefining the problem.
+1. Modularity is the primary tool to manage complexity.
+    - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
+1. Modules should be deep <sup>[APoSD]</sup>.
     - Interface complexity costs more than implementation complexity.
     - Reducing local complexity at the expense of global complexity is usually not a good trade off.
-    - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
-    - Shallow and pass-through modules are a red flag.
-- Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
-- Worse may be better [WiB]
-    - The design must be correct in all observable aspects. It is slightly better to be simple than correct.
-    - The design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever simplicity is jeopardized.
-    - The design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either complexity or inconsistency.
-- [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
-- Code duplication is not necessarily a problem, knowledge duplication probably is.
+      - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
+      - Shallow and pass-through modules are a red flag.
+1. [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
+1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
+1. Worse may be better [WiB]
 
 ## Project and directory structure
 
@@ -71,7 +69,7 @@ More important than any presctriptive opinion is the ability to trace it back to
       - If there's a single or primary struct or class at the top of the file, its docstring may suffice to provide explain the module's purpose.
       - Otherwise a top-level docstring should supply those answers.
   - The ordering of things of equal importance within a file is another opportunity to convey meaning.
-    - e.g. implement the create operation first, the delete operation later
+    - e.g. implement the create operation before the delete operation.
 
 ## Module Interface
 
@@ -86,15 +84,24 @@ TODO: good/bad
 
 - Names:
   - when naming functions and methods, take into accout how they will be used.
-    - method should assume the classname as its namespace
+      - method should assume the classname as its namespace
       - if the language supports it, function should preferably assume the module name as its namespace. i.e. `employee.create` not `employee.create_employee`
   - names should be meaningful and chosen deliberately
-    - short names are not necessarily bad
-    - excessively long names are distracting
-    - natural names allow to reason by analogy
-    - synthetic names prevent ambiguity
+      - short names are not necessarily bad
+      - excessively long names are distracting
+      - natural names allow to reason by analogy
+      - synthetic names prevent ambiguity
 
 ## Module Implementation
+
+- Code duplication is not necessarily a problem, knowledge duplication probably is.
+  - removing duplicated code is not a good reason to introduce an abstraction.
+  - encapsulating knowledge (aka hiding information) may be a good reason to introduce an abstraction
+
+- Don't extract short, single use helper functions.
+  - a short code block leaded by a clarifying comment does a better job.
+
+- Use whitespace deliberately, for instance to separate blocks of code within a large function.
 
 - Comments:
     - comments are not a smell, they are a tool for communication
@@ -103,22 +110,13 @@ TODO: good/bad
       - it's not always convenient to prusue the best implementation, "the right thing", but its useful and cheap to document what we currently understand a better implementation would be, or what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if they are still relevant concerns and maybe execute the suggested improvements as part of other related work.
       - in evnironments where FIXME and TODO notes are considered a smell, a compromise can be to file a ticket and include the ticket number in the comment (but this should not replace the comment text!)
 
-TODO: good/bad
-
-- Don't extract short, single use helper functions.
-  - a short code block leaded by a clarifying comment does a better job.
-
-- Use whitespace deliberately, for instance to separate blocks of code within a large function.
-
 - Constants:
-  - Avoding magic numbers is not enough reason to introduce constants, and especially not globally shared constants.
-    - A constant declaration at the top of the function that needs it may suffice
+  - The presence of magic numbers and other literal values is not enough reason to externalize constants, especially not globally shared constants.
+    - A constant declaration at the top of the function implementation that uses it may suffice
     - If it needs to be accessed from multiple places within a module, put it at the top of that module.
-    - A constants module is a red flag, and should only house things that genuinely need to to be used at multiple places in an app and are not expected to change.
+  - A constants module is a red flag, and should only house things that genuinely need to to be used at multiple places in an app and are not expected to change.
       - Ask yourself if the modules couldn't be rearrange to remove the constant.
       - Ask yourself it the constant shouldn't be a configurable app setting instead.
-
-TODO: good/bad
 
 - Type specifications
   - Don't sacrifice reader understanding for writer convenience (type linting and autocomplete)
@@ -193,6 +191,10 @@ TODO: add anchors
   - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
   - The system dies if no one possesses that mental model anymore.
 - [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html) [WiB]
+    - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
+    - The design must be correct in all observable aspects. It is slightly better to be simple than correct.
+    - The design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever simplicity is jeopardized.
+    - The design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either complexity or inconsistency.
 - [x] [The Grug Brained Developer](https://grugbrain.dev/) [grug]
   - "No" is the best tool against complexity. Say it to unnecessary features, abstractions, and over-engineering.
   - When you can't say no, deliver 80% of the value with 20% of the code.
@@ -218,12 +220,15 @@ TODO: add anchors
 
 - [x] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
   - Some tests are valuable and contribute a lot to overall software quality. Others don’t. They raise false alarms, don’t help you catch regression errors, and are slow and difficult to maintain.
-  - Tests shouldn’t verify units of code. Rather, they should verify units of behavior, something that is meaningful for the problem domain and, ideally, something that a business person can recognize as useful.
   - Coverage metrics are a good negative indicator (low coverage means you’re not testing enough) but a bad positive one (high coverage doesn’t guarantee good testing quality). Targeting a specific coverage number creates a perverse incentive that goes against the goal of unit testing.
+  - Tests shouldn’t verify units of code. Rather, they should verify units of behavior, something that is meaningful for the problem domain and, ideally, something that a business person can recognize as useful.
+  - Choose black-box testing over white-box testing by default.
+      - If you can’t trace a test back to a business requirement, it’s an indication of the test’s brittleness. Either restructure or delete this test.
+      - You need to make sure the test verifies the end result the system under test delivers: its observable behavior, not the steps it takes to do that.
   - The ubiquitous use of mocks produces tests that couple too tightly to the implementation.
-  - The more the test is coupled to the implementation details of the system under test (SUT), the more false alarms it generates. You need to make sure the test verifies the end result the SUT delivers: its observable behavior, not the steps it takes to do that.
-  - Choose black-box testing over white-box testing by default. If you can’t trace a test back to a business requirement, it’s an indication of the test’s brittleness. Either restructure or delete this test.
-  - The use of mocks is beneficial when verifying the communication pattern between your system and external applications. Conversely, using mocks to verify communications between classes inside your system results in tests that couple to implementation details and therefore fall short of the resistance-to-refactoring metric.
+      - The use of mocks is beneficial when verifying the communication pattern between your system and external applications.
+      - Using mocks to verify communications between classes inside your system results in tests that couple to implementation details and therefore fall short of the resistance-to-refactoring metric.
+
   - Code can be either deep (complex or important) or wide (work with many collaborators), but not both.
     - Trivial code (low complexity/significance, few collaborators): this code shouldn’t be tested at all.
     - Domain model and algorithms (high complexity/significance, few collaborators): this code should be unit tested. The resulting unit tests are highly valuable and cheap.
