@@ -2,11 +2,12 @@
 
 ## Introduction
 
-This is a brain dump of my current coding preferences. I try to adhere to these in personal projects and I try to subtly move team projects in this direction when it's not disruptive.
+This is a brain dump of my current coding preferences. I try to adhere to these in personal projects and I try to subtly move team projects in this direction (when it's not disruptive).
 
-I occassionally find myself sending LLMs to read one of my blog posts before starting some task (e.g. for testing conventions), so rather than crafting weird `AGENTS.md` files I thought why not make a human readable guide to refer to. If it's human-readable enough surely Claude can handle it.
+I've occassionally found myself sending LLMs to read one of my blog posts before starting a task (e.g. for testing conventions), so rather than crafting weird `AGENTS.md` files I
+thought why not make a human readable guide to refer them to. If it's human-readable enough surely Claude can handle it.
 
-Why even bother with sytle if it looks like we won't be writing much code anymore? Maybe we won't, but it's likely that we still have to read a lot of it, so I'd rather have the LLMs follow my preferences. I also posit that better style makes better design, and better design leads to better quality LLM output. And if it does turn out that [we won't need](https://olano.dev/blog/dangerously-skip/) to even read code anymore, then indulge me on this, my own personal farewell to that side of the craft.
+Why even bother with sytle if it looks like we won't be writing much code anymore? Maybe we won't, but at least for now we still have to read a lot of it, so I'd rather have the LLMs produce code that follows my preferences. I also posit that better style makes better design, and better design leads to better software, LLM or not. And, if it does turn out that [we won't need](https://olano.dev/blog/dangerously-skip/) to even read the code anymore, then indulge me on this, my own personal farewell to that side of the craft.
 
 Why so much discussion about software design in a coding style guide? I think that style is a spectrum that goes from trivial formatting decisions (tabs vs spaces, max line length, etc) to software design. The automatable aspects should be just automated away and are not worth discussing. It's the bits that spill into design that are worth being opinionated about: how we distribute code across files directly maps to system modularization; how we name thing strongly influeces how we understand, communicate about, and modify the system, and so on.
 
@@ -14,37 +15,47 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Sources
 
-- A Philosophy of Software Design
-- [A Philosophy of Software Design vs Clean Code](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
-- [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
-- [The Grug Brained Developer](https://grugbrain.dev/)
-- [Codin' dirty](https://htmx.org/essays/codin-dirty/)
-- [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
-- [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
+TODO: inline key takeaways
+
+- [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
+- [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+- [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
+    - Simplicity: the design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
+    - Correctness: the design must be correct in all observable aspects. It is slightly better to be simple than correct.
+    - Completeness: the design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In fact, completeness must be sacrificed whenever implementation simplicity is jeopardized.
+    - Consistency: the design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either implementational complexity or inconsistency.
+- [ ] [The Grug Brained Developer](https://grugbrain.dev/)
+- [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
+   - (Some) big functions are good, actually
+   - Prefer integration tests to unit tests
+   - Keep your class/interface/concept count down
+
+- [ ] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
+- [x] [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
+  - There's local complexity when unrelated components are collocated
+  - There's global complexity when significant knowledge travels long distances
+  - Complexity has lower impact if the complex component doesn't change frequently
+  - Coupling should not be eliminated, it should be "balanced". There is balance when volatile components are modular and complex components don't change.
+- [ ] 'Names' Chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf)
 
 ## Design Principles and Assumptions
 
+TODO: move up the pieces directly derived from th sources
+
 - The primary concern of the code writer needs to be the experience of future code readers.
-  - Code needs to work, obviously, and we have means to ensure that (tests). But no one is in a better position that the one writing the code to make it easier to read.
-  - The operation of the code [may be more important](https://olano.dev/blog/code-is-run-more-than-read) than its reading, but that rarely needs to be a primary concern when deciding on internal coding style details.
-  - Even if the LLMs also need to read the code, the assumption is that the more readable code is for humans, the more effective LLMs will be at processing it. I won't sacrifize human readability for alleged LLM optimizations.
 - For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
+  - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
 - Accidental complexity needs to be removed, essential complexity needs to be managed.
-  - there's local complexity when unrelated components are collocated
-  - there's global complexity when significant knowledge travels long distances
-  - complexity has lower impact if the complex component doesn't change frequently
 - Modularity is the primary tool to manage complexity.
   - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
 - Modules should be deep.
   - Interface complexity costs more than implementation complexity.
-  - Shallow and pass-through modules are a red flag.
-  - Breaking modules apart typically increases interface complexity.
   - Reducing local complexity at the expense of global complexity is usually not a good trade off.
-
+  - Breaking modules apart typically increases interface complexity.
+  - Shallow and pass-through modules are a red flag.
 - Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers.
-- Locality of Behavior often trumps Separation of Concerns
+- [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns
 - Code duplication is not necessarily a problem, knowledge duplication probably is.
-
 - The right style is the preexisting style in the project, if there's one. If there isn't, refer to this document.
 
 ## Project and directory structure
@@ -55,7 +66,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 - In most cases it's better to group components by domain relevance than by its technical attributes
   - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
-  - e.g. put the employee type enum next to the employee demol, not next to other project enums
+  - e.g. put the employee type enum next to the employee model, not next to other project enums
 
 - A README should at the very least answer: what is this and why is this necessary.
 - A README should ideally also answer:
@@ -81,29 +92,30 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Module Interface
 
-- Docstrings:
+- Docstrings (i.e. public interface comments):
     - Docstrings are part of the interface of a module.
     - Docstrings should not reiterate the rest of the interface but complement it.
       - If arguments are self-evident, don't list them.
     - Docstrings should not reveal implementation details.
+    - Docstrings are the best means to capture domain knowledge of the project.
 
 TODO: good/bad
 
 - Names:
   - when naming functions and methods, take into accout how they will be used.
     - method should assume the classname as its namespace
-    - if the language supports it, function should preferably assume the classname as its namespace
-      - names should be meaningful
-        - short names are not necessarily bad
-        - excessively long names are distracting
-
-TODO: good/bad
+      - if the language supports it, function should preferably assume the module name as its namespace. i.e. `employee.create` not `employee.create_employee`
+  - names should be meaningful and chosen deliberately
+    - short names are not necessarily bad
+    - excessively long names are distracting
+    - natural names allow to reason by analogy
+    - synthetic names prevent ambiguity
 
 ## Module Implementation
 
 - Comments:
     - comments are not a smell, they are a tool for communication
-    - comments should complement the code, not repeat it (they provide the why, not the what)
+    - comments should complement the code, not repeat it (they should capture implementor intent---the why, not the what)
     - TODO and FIXME comments are an extremely valuable tool to capture current understanding and intent.
       - it's not always convenient to prusue the best implementation, "the right thing", but its useful and cheap to document what we currently understand a better implementation would be, or what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if they are still relevant concerns and maybe execute the suggested improvements as part of other related work.
       - in evnironments where FIXME and TODO notes are considered a smell, a compromise can be to file a ticket and include the ticket number in the comment (but this should not replace the comment text!)
@@ -137,3 +149,57 @@ TODO: good/bad
 TODO write based on
 - https://olano.dev/blog/unit-testing-principles/
 - https://olano.dev/blog/what-i-think-i-know-about-testing/
+
+- Prefer integration tests to unit tests.
+- There should be one integration test for each meaningful business/domain rule in the project.
+  - the test name and its docstring should reflect this (and not reiterate the test implementation), so one can ignore the implementation and get an aproximated use case specification:
+  ```python
+  def test_login_no_verified_fails(self, client):
+        "Unverified users cannot log in."
+        # ...
+  def test_login_succeeds(self, client):
+        "Users can log in after verifying their email."
+        # ...
+  def test_login_wrong_password(self, client):
+        "Login fails with an error message when entering a wrong password."
+        # ...
+  ```
+  - this also means that tests that aren't meaningful should be removed/refactored
+- Unit tests should be left for pieces of code that need to be exercised in all of its variations, are complicated to setup, or would be too distracting if exercised as integration tests: complex algorithms, state machine transitions, etc.
+- It's ok to parametrize unit tests.
+- It's not ok to have conditional code in tests. Split into different tests.
+- Don't unit test what's already covered by integration tests.
+- Trivial code should not be tested.
+- External dependency code should not be tested, except as part of a higher level integration.
+
+- Code coverage should only be used to highlight what's not being tested, not as a target or indicator of quality.
+
+
+- never mock intermediate layers of the code, only observable behavior, e.g. outgoing requests.
+  - leverage mock libraries for this purpose, e.g. responses for requests, respx for httpx.
+    - i.e. a refactor from `requests.request(url, method='GET')` to `requests.get(url)` should not break a test.
+    - if there is no such library, try to test at the lowest possible layer to preserve resistance to refactoring.
+
+### Database
+- don't mock the database
+- use the same db setup as in the production application.
+- start each test with an empty database (unless that becomes unbearably slow).
+- prefer to build the test data through the public interface of the app, as opposed to injecting necessary values directly in the database through other means.
+
+### Test helpers and mock data
+
+- Don't use imported constants and enums in the tests, those are internals. The literals are the system observable behavior, use that.
+
+- when the payloads are short, is better to inline them in each test for readability.
+- when payloads are big enough to be distracting, extract them to a helper at the bottom of the file.
+- helpers should be extracted to a seprate module only if they are generic enough to be relevant to multiple test scenarios.
+  - if the helper is needed in a single module, keep it there
+  - don't overcomplicate the helper to satisfy multiple testing scenarios; keep separate versions on the corresponding modules.
+
+- take advantage of defaults to improve readability of the tests through the helpers.
+  - `create_user()` is good if I don't care about the specific attributes
+  - `create_user(country='ar')` and `create_user(country='br')` is better if the test exercises a business rule around the user country
+- don't use helpers to test the operation being encapsulated.
+  - don't use `create_user` when the test targets user creation.
+
+- Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db_sessions, and request library mocks. Don't use them to build payloads.
