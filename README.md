@@ -13,59 +13,33 @@ Why so much discussion about software design in a coding style guide? I think th
 
 More important than any presctriptive opinion is the ability to trace it back to some agreed upon principle. Opinions are made to be changed, and only by going back to common ground can we evolve our understanding and prevent dogmatism.
 
-## Sources
-
-TODO: inline key takeaways
-TODO: move take aways to their corresponding sections, with the reference codes.
-TODO: move the sources to the bottom with reference anchors
-
-- [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
-  - add out of the tar pit
-- [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
-- [x] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
-  - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
-  - The system dies if no one possesses that mental model anymore.
-- [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
-    - Correctness: the design must be correct in all observable aspects. It is slightly better to be simple than correct.
-    - Completeness: the design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever implementation simplicity is jeopardized.
-    - Consistency: the design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either implementational complexity or inconsistency.
-- [ ] [The Grug Brained Developer](https://grugbrain.dev/)
-- [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
-   - (Some) big functions are good, actually
-   - Prefer integration tests to unit tests
-   - Keep your class/interface/concept count down
-
-- [ ] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
-- [x] [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
-  - There's local complexity when unrelated components are collocated
-  - There's global complexity when significant knowledge travels long distances
-  - Complexity has lower impact if the complex component doesn't change frequently
-  - Coupling should not be eliminated, it should be "balanced". There is balance when volatile components are modular and complex components don't change.
-- [ ] 'Names' Chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf)
-
 ## Design Principles and Assumptions
 
+- Code is a liability, not an asset. Other things being equal (complexity, economic incentives), the less code the better.
+- The right style is the preexisting style in the project, if there's one. If there isn't, refer to this document.
 - The primary concern of the code writer needs to be the experience of future code readers.
   - Never sacrifice reader understanding for writer convenience.
-- For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
-  - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
-- TODO complexity
-  - Accidental complexity needs to be removed, essential complexity needs to be managed.
-  - Essential complexity may be removed by redefining the problem.
-- Code is a liability, not an asset. Other things (complexity, economic consideration) being equal, the less code the better.
-- Worse may be better [WiB].
-
+  - For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is this here?".
+    - If these questions are hard to answer it could mean that: the names should be improved, docstrings/comments are missing, the component should be absorbed by another component, or it shouldn't exist at all.
+- Reducing complexity is the most important element of software design. [APoSD]
+  - A system is simple when its design is easy to understand and change.
+  - Essential complexity is inherent the problem being solved. Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem. [NSB]
+  - Accidental complexity needs to be minimized, essential complexity needs to be managed.
+  - Essential complexity [may be removed](https://olano.dev/blog/a-note-on-essential-complexity/) by redefining the problem.
 - Modularity is the primary tool to manage complexity.
   - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
-- Modules should be deep [APoSD].
-  - Interface complexity costs more than implementation complexity.
-  - Reducing local complexity at the expense of global complexity is usually not a good trade off.
-  - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
-  - Shallow and pass-through modules are a red flag.
-- Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers.
-- [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns
+  - Modules should be deep <sup>[APoSD]</sup>.
+    - Interface complexity costs more than implementation complexity.
+    - Reducing local complexity at the expense of global complexity is usually not a good trade off.
+    - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
+    - Shallow and pass-through modules are a red flag.
+- Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
+- Worse may be better [WiB]
+    - The design must be correct in all observable aspects. It is slightly better to be simple than correct.
+    - The design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever simplicity is jeopardized.
+    - The design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either complexity or inconsistency.
+- [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
 - Code duplication is not necessarily a problem, knowledge duplication probably is.
-- The right style is the preexisting style in the project, if there's one. If there isn't, refer to this document.
 
 ## Project and directory structure
 
@@ -207,3 +181,41 @@ TODO: good/bad
   - don't use `create_user` when the test targets user creation.
 
 - Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db sessions, and request library mocks. Don't use them to build payloads.
+## Sources
+
+TODO: finish inlining key takeaways
+TODO: move take aways to their corresponding sections, with the reference codes.
+TODO: add anchors
+
+- [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
+- [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+- [x] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
+  - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
+  - The system dies if no one possesses that mental model anymore.
+- [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html) [WiB]
+- [ ] [The Grug Brained Developer](https://grugbrain.dev/) [grug]
+- [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
+   - (Some) big functions are good, actually
+   - Prefer integration tests to unit tests
+   - Keep your class/interface/concept count down
+
+- [x] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
+  - Some tests are valuable and contribute a lot to overall software quality. Others don’t. They raise false alarms, don’t help you catch regression errors, and are slow and difficult to maintain.
+  - Tests shouldn’t verify units of code. Rather, they should verify units of behavior, something that is meaningful for the problem domain and, ideally, something that a business person can recognize as useful.
+  - Coverage metrics are a good negative indicator (low coverage means you’re not testing enough) but a bad positive one (high coverage doesn’t guarantee good testing quality). Targeting a specific coverage number creates a perverse incentive that goes against the goal of unit testing.
+  - The ubiquitous use of mocks produces tests that couple too tightly to the implementation.
+  - The more the test is coupled to the implementation details of the system under test (SUT), the more false alarms it generates. You need to make sure the test verifies the end result the SUT delivers: its observable behavior, not the steps it takes to do that.
+  - Choose black-box testing over white-box testing by default. If you can’t trace a test back to a business requirement, it’s an indication of the test’s brittleness. Either restructure or delete this test.
+  - The use of mocks is beneficial when verifying the communication pattern between your system and external applications. Conversely, using mocks to verify communications between classes inside your system results in tests that couple to implementation details and therefore fall short of the resistance-to-refactoring metric.
+  - Code can be either deep (complex or important) or wide (work with many collaborators), but not both.
+    - Trivial code (low complexity/significance, few collaborators): this code shouldn’t be tested at all.
+    - Domain model and algorithms (high complexity/significance, few collaborators): this code should be unit tested. The resulting unit tests are highly valuable and cheap.
+    - Controllers (low complexity/significance, many collaborators): controllers should be tested as part of overarching integration tests.
+    - Overcomplicated code (high complexity/significance, many collaborators): this code is hard to test, and as such it’s better to split it into domain/algorithms and controllers.
+
+- [x] [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
+  - There's local complexity when unrelated components are collocated
+  - There's global complexity when significant knowledge travels long distances
+  - Complexity has lower impact if the complex component doesn't change frequently
+  - Coupling should not be eliminated, it should be "balanced". There is balance when volatile components are modular and complex components don't change.
+- [ ] 'Names' Chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf)
