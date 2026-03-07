@@ -15,17 +15,16 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Design Principles and Assumptions
 
-1. The right style is the preexisting, agreed upon, style in the project, if there's one. If there isn't, refer to this document.
+1. The right style is the preexisting, agreed-upon style in the project, if there's one. If there isn't, refer to this document.
 1. Code is a liability, not an asset.
     - Other things being equal (readability, complexity, economic incentives), the less code the better.
-    - Worse may be better. [WiB][grug]
+    - Worse may be better[WiB][grug].
 1. The primary concern of the code writer needs to be the experience of future code readers.
     - Never sacrifice reader understanding for writer convenience.
 1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is it here?".
       - If these questions are hard to answer it could mean that: the names should be improved, docstrings or comments are missing, the component should be absorbed by another one, or it shouldn't exist at all.
-1. Simplicity is the most important consideration in a design. [WiB][APoSD]
+1. Simplicity is the most important consideration in a design[WiB][APoSD].
     - A system is simple when its design is easy to understand and change.
-    - Essential complexity is inherent the problem being solved. Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem. [NSB]
     - Accidental complexity needs to be minimized, essential complexity needs to be managed.
     - Essential complexity [may be removed](https://olano.dev/blog/a-note-on-essential-complexity/) by redefining the problem.
 1. Modularity is the primary tool to manage complexity.
@@ -49,7 +48,7 @@ More important than any presctriptive opinion is the ability to trace it back to
     - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
     - e.g. put the employee type enum next to the employee model, not next to other project enums
 
-- A README should at the very least answer: what is this and why is this necessary.
+- A README should at the very least answer: what is this project and why is this necessary.
 - A README should ideally also answer:
   - how do I build it
   - how do I run it
@@ -149,33 +148,33 @@ More important than any presctriptive opinion is the ability to trace it back to
 - Test code shouldn't have conditionals (`if`). Split into separate tests.
 
 ### Mocks
-- never mock intermediate layers of the code, only observable behavior, e.g. system inputs and outputs.
-  - leverage mock libraries for this purpose, e.g. responses for requests, respx for httpx.
+- Mocks of intermediate layers of the code are a red flag: they make the tests brittle, coupled to implementation details, with low resistance to refactoring, and low protection against regressions[UTP].
+- Only mock the system's observable behavior, i.e. its inputs and outputs.
+  - Leverage mock libraries for this purpose, e.g. responses for requests, respx for httpx.
     - i.e. a refactor from `requests.request(url, method='GET')` to `requests.get(url)` should not break a test.
     - if there is no such library, try to test at the lowest possible layer to preserve resistance to refactoring.
 
 ### Database
 - Don't mock the database.
-- use the same db setup as in the production application.
-- start each test with an empty database (unless that becomes unbearably slow).
-- prefer to build the test data through the public interface of the app, as opposed to injecting necessary values directly in the database through other means.
+- Use the same db setup as in the production application.
+- Start each test with an empty database (unless that becomes unbearably slow).
+- Prefer to build the test data through the public interface of the app, instead of taking shortcuts.
+  - E.g. in an HTTP API use the API to create the data, don't update the databse directly.
 
 ### Test helpers
 
 - Don't use imported constants and enums in the tests, those are internals. The literals are the system observable behavior, use that.
-
-- when the payloads are short, it's better to inline and repeat them in each test for readability.
-- when payloads are big enough to distract from the purpose of the test, extract them to a helper at the bottom of the file.
-- helpers should be extracted to a separate module only if they are generic enough to be relevant to multiple test scenarios.
-  - if the helper is needed in a single module, keep it there
-  - don't overcomplicate the helper to satisfy multiple testing scenarios; keep separate versions on the corresponding modules.
-
-- take advantage of defaults to improve readability of the tests through the helpers.
-  - `create_user()` is good if I don't care about the specific attributes
-  - `create_user(country='ar')` and `create_user(country='br')` is better if the test exercises a business rule around the user country
-- don't use helpers to test the operation being encapsulated.
-  - don't use `create_user` when the test targets user creation.
-
+- When the payloads are short, it's better to inline and repeat them in each test for readability.
+- When payloads are big enough to distract from the purpose of the test, extract them to a helper at the bottom of the file.
+- Helpers should be extracted to a separate module only if they are generic enough to be relevant to multiple test scenarios.
+  - If the helper is needed in a single module, keep it there.
+  - Don't overcomplicate the helper to satisfy multiple testing scenarios; keep separate versions on the corresponding modules.
+- Craft the helper function interface to improve the readability of test
+  - e.g. use sane defaults arguments and override for specific test cases:
+    - `create_user()` is good if I don't care about the specific attributes,
+    - `create_user(country='ar')` and `create_user(country='br')` is better if the test exercises a business rule around the user country
+- Don't use a helper that includes the operation being tested.
+  - e.g. don't rely on `create_user` for the user creation tests.
 - Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db sessions, and request library mocks. Don't use them to build payloads.
 
 ## Sources
@@ -184,8 +183,10 @@ TODO: finish inlining key takeaways
 TODO: move take aways to their corresponding sections, with the reference codes.
 TODO: add anchors
 
-- [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
-- [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+- [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf) [NSB]
+  - Essential complexity is that inherent to the problem being solved.
+  - Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem.
+- [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md) [APoSD]
 - [x] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
   - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
   - The system dies if no one possesses that mental model anymore.
@@ -212,12 +213,12 @@ TODO: add anchors
   - Place methods on the objects they operate on.
   - Common operations should not require unnecessary intermediate steps (e.g., don't force stream conversion just to filter a list).
   - Return types that match user expectations (a filtered list should return a list, not a stream).
-- [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
+- [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/) [CD]
    - (Some) big functions are good, actually
    - Prefer integration tests to unit tests
    - Keep your class/interface/concept count down
 
-- [x] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
+- [x] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/) [UTP]
   - Some tests are valuable and contribute a lot to overall software quality. Others don’t. They raise false alarms, don’t help you catch regression errors, and are slow and difficult to maintain.
   - Coverage metrics are a good negative indicator (low coverage means you’re not testing enough) but a bad positive one (high coverage doesn’t guarantee good testing quality). Targeting a specific coverage number creates a perverse incentive that goes against the goal of unit testing.
   - Tests shouldn’t verify units of code. Rather, they should verify units of behavior, something that is meaningful for the problem domain and, ideally, something that a business person can recognize as useful.
@@ -239,4 +240,4 @@ TODO: add anchors
   - There's global complexity when significant knowledge travels long distances
   - Complexity has lower impact if the complex component doesn't change frequently
   - Coupling should not be eliminated, it should be "balanced". There is balance when volatile components are modular and complex components don't change.
-- [ ] 'Names' Chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf)
+- [ ] 'Names' Chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf) [EoC]
