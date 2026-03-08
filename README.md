@@ -18,7 +18,6 @@ More important than any presctriptive opinion is the ability to trace it back to
 1. The right style is the preexisting, agreed-upon style in the project, if there's one. If there isn't, refer to this document.
 1. Code is a liability, not an asset.
     - Other things being equal (readability, complexity, economic incentives), the less code the better.
-    - Worse may be better[WiB][grug].
 1. The primary concern of the code writer needs to be the experience of future code readers.
     - Never sacrifice reader understanding for writer convenience.
 1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is it here?".
@@ -27,6 +26,7 @@ More important than any presctriptive opinion is the ability to trace it back to
     - A system is simple when its design is easy to understand and change.
     - Accidental complexity needs to be minimized, essential complexity needs to be managed.
     - Essential complexity [may be removed](https://olano.dev/blog/a-note-on-essential-complexity/) by redefining the problem.
+    - Worse may be better[WiB][grug].
 1. Modularity is the primary tool to manage complexity.
     - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
 1. Modules should be deep <sup>[APoSD]</sup>.
@@ -36,7 +36,6 @@ More important than any presctriptive opinion is the ability to trace it back to
       - Shallow and pass-through modules are a red flag.
 1. [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
 1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
-1. Worse may be better [WiB]
 
 ## Project and directory structure
 
@@ -183,9 +182,10 @@ TODO: finish inlining key takeaways
 TODO: move take aways to their corresponding sections, with the reference codes.
 TODO: add anchors
 
-- [ ] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf) [NSB]
+- [x] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf) [NSB]
   - Essential complexity is that inherent to the problem being solved.
   - Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem.
+  - The most radical possible solution for constructing software is not to construct it at all.
 - [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md) [APoSD]
 - [x] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
   - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
@@ -225,7 +225,7 @@ TODO: add anchors
   - Choose black-box testing over white-box testing by default.
       - If you can’t trace a test back to a business requirement, it’s an indication of the test’s brittleness. Either restructure or delete this test.
       - You need to make sure the test verifies the end result the system under test delivers: its observable behavior, not the steps it takes to do that.
-  - The ubiquitous use of mocks produces tests that couple too tightly to the implementation.
+  - The ubiquitous use of mocks produces tests that couple too tightly to implementation details.
       - The use of mocks is beneficial when verifying the communication pattern between your system and external applications.
       - Using mocks to verify communications between classes inside your system results in tests that couple to implementation details and therefore fall short of the resistance-to-refactoring metric.
 
