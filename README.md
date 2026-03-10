@@ -1,4 +1,4 @@
-# Facundo's highly controversial programming style guide
+# Facundo's programming style guide
 
 ## Introduction
 
@@ -146,6 +146,11 @@ More important than any presctriptive opinion is the ability to trace it back to
 - Code coverage should only be used to highlight detect untested areas, not as a target or indicator of quality [UTP].
 - Test code shouldn't have conditionals (`if`). Split into separate tests.
 
+- The system needs to be manually tested by a human, ideally in a production-like environment. No amount of automated test is an excuse to skip [some form](https://olano.dev/blog/verified-in-production/) of production verification.
+- e2e tests are a nice to have in apps are stable and/or there's high risk in broken integrations going unnoticed
+  - they take time to implement and brittle, they are no exuse from postponing manual e2e testing
+  - even if they are passing, occassional e2e testing are still necessary
+
 ### Mocks
 - Mocks of intermediate layers of the code are a red flag: they make the tests brittle, coupled to implementation details, with low resistance to refactoring, and low protection against regressions[UTP].
 - Only mock the system's observable behavior, i.e. its inputs and outputs.
@@ -178,24 +183,24 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Sources
 
-TODO: finish inlining key takeaways
-TODO: move take aways to their corresponding sections, with the reference codes.
-TODO: add anchors
-
-- [x] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf) [NSB]
+[NSB] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
   - Essential complexity is that inherent to the problem being solved.
   - Accidental complexity is that incurred, necessarily or not, to implement a concrete solution of the problem.
   - The most radical possible solution for constructing software is not to construct it at all.
-- [ ] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md) [APoSD]
-- [x] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
+
+[TB] [Programming as Theory Building](https://pages.cs.wisc.edu/~remzi/Naur.pdf)
   - The product of software building is not source code but a certain insight, a mental model (a theory), that enables programmers to understand, modfiy, explain, and answer questions about the system.
   - The system dies if no one possesses that mental model anymore.
-- [x] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html) [WiB]
+
+[APoSD] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+
+[WiB] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
     - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
     - The design must be correct in all observable aspects. It is slightly better to be simple than correct.
     - The design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever simplicity is jeopardized.
     - The design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either complexity or inconsistency.
-- [x] [The Grug Brained Developer](https://grugbrain.dev/) [grug]
+
+[grug] [The Grug Brained Developer](https://grugbrain.dev/)
   - "No" is the best tool against complexity. Say it to unnecessary features, abstractions, and over-engineering.
   - When you can't say no, deliver 80% of the value with 20% of the code.
     - Project managers often forget requirements or move on — the 80/20 usually serves their real interests anyway.
@@ -213,12 +218,13 @@ TODO: add anchors
   - Place methods on the objects they operate on.
   - Common operations should not require unnecessary intermediate steps (e.g., don't force stream conversion just to filter a list).
   - Return types that match user expectations (a filtered list should return a list, not a stream).
-- [x] [Codin' dirty](https://htmx.org/essays/codin-dirty/) [CD]
+
+[CD] [Codin' dirty](https://htmx.org/essays/codin-dirty/)
    - (Some) big functions are good, actually
    - Prefer integration tests to unit tests
    - Keep your class/interface/concept count down
 
-- [x] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/) [UTP]
+[UTP] [Unit Testing Principles](https://olano.dev/blog/unit-testing-principles/)
   - Some tests are valuable and contribute a lot to overall software quality. Others don’t. They raise false alarms, don’t help you catch regression errors, and are slow and difficult to maintain.
   - Coverage metrics are a good negative indicator (low coverage means you’re not testing enough) but a bad positive one (high coverage doesn’t guarantee good testing quality). Targeting a specific coverage number creates a perverse incentive that goes against the goal of unit testing.
   - Tests shouldn’t verify units of code. Rather, they should verify units of behavior, something that is meaningful for the problem domain and, ideally, something that a business person can recognize as useful.
@@ -235,9 +241,10 @@ TODO: add anchors
     - Controllers (low complexity/significance, many collaborators): controllers should be tested as part of overarching integration tests.
     - Overcomplicated code (high complexity/significance, many collaborators): this code is hard to test, and as such it’s better to split it into domain/algorithms and controllers.
 
-- [x] [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
+[BC] [Balancing Coupling in Software Design](https://olano.dev/blog/balancing-coupling/)
   - There's local complexity when unrelated components are collocated
   - There's global complexity when significant knowledge travels long distances
   - Complexity has lower impact if the complex component doesn't change frequently
   - Coupling should not be eliminated, it should be "balanced". There is balance when volatile components are modular and complex components don't change.
-- [ ] 'Names' Chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf) [EoC]
+
+[EoC] [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf)
