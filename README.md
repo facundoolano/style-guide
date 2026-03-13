@@ -87,7 +87,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 - Names should be meaningful and chosen deliberately.
     - Short names are not necessarily bad.
     - Excessively long names are distracting.
-    - Natural names allow to reason by analogy and synthetic names prevent ambiguity, shoose accordingly[EoC].
+    - Natural names allow to reason by analogy and synthetic names prevent ambiguity, choose accordingly [EoC].
 
 ## Implementation
 
@@ -180,7 +180,6 @@ More important than any presctriptive opinion is the ability to trace it back to
 - Don't use a helper that includes the operation being tested.
   - e.g. don't rely on `create_user` for the user creation tests.
 - Only use opaque helpers (e.g. pytest fixtures) for inftrastructure that doesn't need to be introspected, like test clients, db sessions, and request library mocks. Don't use them to build payloads.
-
 ## Sources
 
 [NSB] [No silver bullet](https://worrydream.com/refs/Brooks_1986_-_No_Silver_Bullet.pdf)
@@ -199,6 +198,20 @@ More important than any presctriptive opinion is the ability to trace it back to
   - Reducing complexity is the most important element of software design.
       - The first approach is to eliminate complexity by making code simpler and more obvious.
       - The second approach is to encapsulate it, so that programmers can work on a system without being exposed to all of its complexity at once. This approach is called modular design.
+  - Modules have two parts: interface and implementation.
+      - The interface is everything that a developer working in a different module must know in order to use the given module. The interface describes _what_ the module does but not _how_ it does it.
+        - The formal parts of an interface are specified explicitly in the code.
+        - The informal parts of an interface can only be described using comments.
+      - The implementation is the code that carries out the promises made by the interface. A developer should not need to understand the implementations of modules other than the one they are working in.
+  - An abstraction is a simplified view of an entity, which omits unimportant details.
+      - An abstraction that includes unimportant details increases cognitive load.
+      - An abstraction that omits important details results in obscurity.
+      - The key to designing abstractions is to understand what is important, and to look for designs that minimize the amount of information that is important.
+  - Modules should be deep.
+      - The benefit provided by a module is its functionality. The cost (in terms of system complexity) is its interface.
+      - The best modules are those whose interfaces are much simpler than their implementations. These are called "deep" modules.
+      - A deep module is a good abstraction because only a small fraction of its internal complexity is visible to its users.
+      - Shallow modules are a red flag.
 
 [WiB] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
   - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
@@ -262,4 +275,4 @@ More important than any presctriptive opinion is the ability to trace it back to
     - The only way to be fully consistent is to have a one-to-one relationship between signs and senses. This
 means that we must invent a sign for each sense, but also that readers must agree on their sense.
   - Most natural names havea rich, varied collection of senses. To avoid ambiguity we must use synthetic names, which have no intuitive sense in the context of our code.
-  - Natural names allow every reader, novice or expert, to reason by analogy. Reasoning by analogy is a powerful tool, especially when our software models and interacts with the real world. Synthetic names defy analogies, and prevent novices from understanding even the basic intent behind your code. Choose accordingly.
+  - Natural names allow every reader, novice or expert, to reason by analogy. Reasoning by analogy is a powerful tool, especially when our software models and interacts with the real world. Synthetic names defy analogies, and prevent novices from understanding even the basic intent behind your code. choose accordingly.
