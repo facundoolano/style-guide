@@ -193,12 +193,18 @@ More important than any presctriptive opinion is the ability to trace it back to
   - The system dies if no one possesses that mental model anymore.
 
 [APoSD] [A Philosophy of Software Design](https://github.com/johnousterhout/aposd-vs-clean-code/blob/main/README.md)
+  - Complexity is anything related to the structure of a software system that makes it hard to understand and modify the system.
+      - Symptoms: change amplification, cognitive load, unknown unknowns.
+      - Causes: dependencies an obscurity.
+  - Reducing complexity is the most important element of software design.
+      - The first approach is to eliminate complexity by making code simpler and more obvious.
+      - The second approach is to encapsulate it, so that programmers can work on a system without being exposed to all of its complexity at once. This approach is called modular design.
 
 [WiB] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
-    - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
-    - The design must be correct in all observable aspects. It is slightly better to be simple than correct.
-    - The design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever simplicity is jeopardized.
-    - The design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either complexity or inconsistency.
+  - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
+  - The design must be correct in all observable aspects. It is slightly better to be simple than correct.
+  - The design must cover as many important situations as is practical. Completeness can be sacrificed in favor of any other quality. In  fact, completeness must be sacrificed whenever simplicity is jeopardized.
+  - The design must not be overly inconsistent. Consistency can be sacrificed for simplicity in some cases, but it is better to drop those parts of the design that deal with less common circumstances than to introduce either complexity or inconsistency.
 
 [grug] [The Grug Brained Developer](https://grugbrain.dev/)
   - "No" is the best tool against complexity. Say it to unnecessary features, abstractions, and over-engineering.
@@ -234,7 +240,6 @@ More important than any presctriptive opinion is the ability to trace it back to
   - The ubiquitous use of mocks produces tests that couple too tightly to implementation details.
       - The use of mocks is beneficial when verifying the communication pattern between your system and external applications.
       - Using mocks to verify communications between classes inside your system results in tests that couple to implementation details and therefore fall short of the resistance-to-refactoring metric.
-
   - Code can be either deep (complex or important) or wide (work with many collaborators), but not both.
     - Trivial code (low complexity/significance, few collaborators): this code shouldn’t be tested at all.
     - Domain model and algorithms (high complexity/significance, few collaborators): this code should be unit tested. The resulting unit tests are highly valuable and cheap.
@@ -247,4 +252,14 @@ More important than any presctriptive opinion is the ability to trace it back to
   - Complexity has lower impact if the complex component doesn't change frequently
   - Coupling should not be eliminated, it should be "balanced". There is balance when volatile components are modular and complex components don't change.
 
-[EoC] [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf)
+[EoC] Names chapter from [Elements of Clojure](https://elementsofclojure.com/manuscript/elements_of_clojure.pdf#page=8)
+  - Names should be narrow and consistent.
+      - A narrow name clearly excludes things it cannot represent.
+      - A consistent name is easily understood by someone familiar with the surrounding code, the problem domain, and the broader language ecosystem.
+  - The same name can have different senses depending on context.
+    - Keeping contexts separate requires continuous effort by the reader, and failing to keep them separate creates subtle misunderstandings.
+    - If we avoid separate contexts, our datatype can only be as narrow as its most general case.
+    - The only way to be fully consistent is to have a one-to-one relationship between signs and senses. This
+means that we must invent a sign for each sense, but also that readers must agree on their sense.
+  - Most natural names havea rich, varied collection of senses. To avoid ambiguity we must use synthetic names, which have no intuitive sense in the context of our code.
+  - Natural names allow every reader, novice or expert, to reason by analogy. Reasoning by analogy is a powerful tool, especially when our software models and interacts with the real world. Synthetic names defy analogies, and prevent novices from understanding even the basic intent behind your code. Choose accordingly.
