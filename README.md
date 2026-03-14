@@ -110,14 +110,14 @@ More important than any presctriptive opinion is the ability to trace it back to
   - if understanding the _how_ of the helper is as relevant to the caller function as understanding the _what_, keep it inline.
   - The same rationale applies to extracting other types of modules (e.g. moving functions to separate files).
 
-- Use whitespace deliberately, for instance to separate blocks of code within a large function  [APoSD].
+- Use whitespace deliberately, for instance to separate blocks of code within a large function[APoSD].
 
 ### Comments
 - Comments are not a smell, they are an aid for communication.
-- Comments should complement the code, not repeat it (they should capture implementor intent---the why, not the what)
+- Comments should complement the code, not repeat it (they should capture implementer intent, the why, not the what)
 - TODO and FIXME comments are an extremely valuable tool to capture current understanding and intent.
-  - It's not always convenient to prusue the best implementation, "the right thing", but its useful and cheap to document what we currently understand a better implementation would be, or what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if they are still relevant concerns and maybe execute the suggested improvements as part of other related work.
-  - In evnironments where FIXME and TODO notes are considered a smell, a compromise can be to file a ticket and include the ticket number in the comment (but this should not replace the comment text!)
+  - It's not always convenient to pursue the best implementation, "the right thing", but it's useful and cheap to document what we currently understand a better implementation would be, what we perceive as weaknesses or opportunities for improvement. This helps future maintainers to get the context of previous work, decide if concerns are still valid, and maybe execute the suggested improvements as part of related work.
+  - In environments where FIXME and TODO notes are considered a smell, a compromise can be to file a ticket and include the ticket number in the comment (which shouldn't replace the comment text!).
 
 ### Constants
 - The presence of magic numbers and other literal values is not enough reason to externalize constants, especially not globally shared constants.
@@ -142,9 +142,11 @@ More important than any presctriptive opinion is the ability to trace it back to
   def test_login_no_verified_fails(self, client):
         "Unverified users cannot log in."
         # ...
+
   def test_login_succeeds(self, client):
         "Users can log in after verifying their email."
         # ...
+
   def test_login_wrong_password(self, client):
         "Login fails with an error message when entering a wrong password."
         # ...
