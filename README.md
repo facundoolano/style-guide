@@ -36,9 +36,10 @@ More important than any presctriptive opinion is the ability to trace it back to
 1. Modules should be deep <sup>[APoSD]</sup>.
     - Interface complexity costs more than implementation complexity.
     - Reducing local complexity at the expense of global complexity is usually a bade trade off.
-    - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
+    - Breaking modules apart frequently increases global complexity by adding more interfaces and separating things that depend on each other.
     - Shallow and pass-through modules are a red flag.
 1. [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
+   - Things that need to be understood together should be closer together.
 1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
 
 ## Project and directory structure
@@ -62,15 +63,14 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## File contents
 
-- File contents should be readable from top to bottom.
-  - This means that important (higher level) stuff should come first
-      - Put primary exported things at the top, internal helpers at the bottom
-      - If a helper is used by one or two functions only, and for some reason shouldn't be inlined into the function, put it next to those functions instead of at the bottom of the file.
-  - When opening a file, I should be able to quickly answer what is this and why its here. This can be achieved in many ways:
-      - Inferred from the containing package and filename: if this is `app/routes/employees.py` I know these will be API endpoints related to employees, no need for comments.
-      - If there's a single or primary struct or class at the top of the file, its docstring may suffice to provide explain the module's purpose.
-      - Otherwise a top-level docstring should supply those answers.
-  - The ordering of things of equal importance within a file is another opportunity to convey meaning.
+- File contents should be readable from top to bottom. This means that important (higher level) stuff should come first
+    - Put primary exported things at the top, internal helpers at the bottom.
+    - If a helper is used by one or two functions only, and for some reason shouldn't be inlined into the function, put it next to those functions instead of at the bottom of the file.
+- When opening a file, I should be able to quickly answer "what is this?" and "why is it here?". This can be achieved in several ways:
+    - Inferred from the containing package and filename: if this is `app/routes/employees.py` I know these will be API endpoints related to employees, no need for comments.
+    - If there's a single or primary struct or class at the top of the file, its docstring may suffice to provide explain the module's purpose.
+    - Otherwise a top-level docstring should supply those answers.
+- The ordering of things of equal importance within a file is another opportunity to convey meaning
     - e.g. implement the create operation before the delete operation.
 
 ## Interface
@@ -96,11 +96,14 @@ More important than any presctriptive opinion is the ability to trace it back to
 ## Implementation
 
 - Code duplication is not necessarily a problem, knowledge duplication probably is.
-  - Removing duplicated code is not a good reason to introduce an abstraction.
+  - Removing duplicated code is not enough reason to introduce an abstraction.
   - Encapsulating knowledge (aka hiding information) may be a good reason to introduce an abstraction.
 
 - Don't extract short, single use helper functions [APoSD][CD].
   - A short code block leaded by a clarifying comment does a better job.
+- Only extract single use helper functions if they can be understood on their own and by extracting them the readability of the calling function improves.
+  - if understanding the _how_ of the helper is as relevant to the caller function as understanding the _what_, keep it inline.
+  - The same rationale applies to extracting other types of modules (e.g. moving functions to separate files).
 
 - Use whitespace deliberately, for instance to separate blocks of code within a large function  [APoSD].
 
