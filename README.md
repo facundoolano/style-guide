@@ -41,7 +41,7 @@ More important than any presctriptive opinion is the ability to trace it back to
    - Things that need to be understood together should be closer together.
 1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
 
-## Project and directory structure
+## Project organization
 
 - The project codebase is a module, with its top level files (README, Makefile, project.json, etc.) acting as the interface.
 
@@ -60,6 +60,11 @@ More important than any presctriptive opinion is the ability to trace it back to
     - how do I test it
     - how do I deploy it
   - The preferred answers to those questions are: `make build`, `make run`, `make test` and `make deploy`. Makefiles are preferable to literal instructions, language-specific build tool commands, ad hoc scripts.
+
+- Pull-requests are also modules: the title and description is the interface, the code diff it's the implementation.
+  - The title and description should be enough to answer "what" and "why".
+  - The Pull request should link or capture any relevant ticket, chat conversation, or error logs.
+  - Assume anyone trying to figure out the "why" of a piece of code will trace it back to its pull-request description.
 
 ## File contents
 
