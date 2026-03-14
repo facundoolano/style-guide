@@ -2,10 +2,9 @@
 
 This is a brain dump of my current coding preferences. I try to adhere to these in personal projects and I try to subtly move team projects in this direction (when it's not disruptive).
 
-It's very much a work in progress, so far focused on capturing anything that comes to mind. It will likely require better organization to be used effectively.
-
 At the bottom is a section with the source material where I got most of my ideas from, which I quoted and paraphrased liberally to support my specific style choices.
 
+This document is a work in progress, so far focused on capturing anything that comes to mind. It will likely require better organization to be used effectively.
 
 ## Introduction
 
@@ -17,7 +16,7 @@ You'll notice that much of this document is spent on software design. I think th
 
 More important than any presctriptive opinion is the ability to trace it back to some agreed upon principle. Opinions are made to be changed, and only by going back to common ground can we evolve our understanding and prevent dogmatism.
 
-## Design Principles and Assumptions
+## Design principles and assumptions
 
 1. The right style is the preexisting, agreed-upon style of the project, if there's one. If there isn't, refer to this document.
 1. Code is a liability, not an asset.
