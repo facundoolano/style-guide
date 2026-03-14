@@ -61,10 +61,10 @@ More important than any presctriptive opinion is the ability to trace it back to
     - how do I deploy it
   - The preferred answers to those questions are: `make build`, `make run`, `make test` and `make deploy`. Makefiles are preferable to literal instructions, language-specific build tool commands, ad hoc scripts.
 
-- Pull-requests are also modules: the title and description is the interface, the code diff it's the implementation.
-  - The title and description should be enough to answer "what" and "why".
-  - The Pull request should link or capture any relevant ticket, chat conversation, or error logs.
-  - Assume anyone trying to figure out the "why" of a piece of code will trace it back to its pull-request description.
+- Pull-requests are also modules: the title and description are the interface, the code diff is the implementation.
+  - Title and description should be enough to answer the "what" and the "why" of the code change, without looking at the code.
+  - The Pull request should link or capture any relevant ticket, chat conversation, or error log.
+  - Assume anyone trying to figure out the "why" of a piece of code will trace it back to a pull-request description.
 
 ## File contents
 
