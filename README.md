@@ -43,7 +43,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Project and directory structure
 
-- The project codebase is a module, with its top level files (README, project.json, etc.) acting as the interface.
+- The project codebase is a module, with its top level files (README, Makefile, project.json, etc.) acting as the interface.
 
 - The internal directory structure of a project should be deliberate and meaningful.
   - Things that need to be frequently read together should be spacially close together.
@@ -51,14 +51,15 @@ More important than any presctriptive opinion is the ability to trace it back to
     - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
     - e.g. put the employee type enum next to the employee model, not next to other project enums
 
-- A README should at the very least answer: what is this project and why is this necessary.
-- A README should ideally also answer:
-  - how do I build it
-  - how do I run it
-  - how do I test it
-  - how do I deploy it
-- The preferred answers to those questions are: `make build`, `make run`, `make test` and `make deploy`
-  - Makefiles are preferable to literal instructions, language-specific build tool commands, ad hoc scripts.
+- Assume that a README file will be read from top to bottom by anyone getting familiar with the project.
+  - Include everything that is important and remove anything that isn't. Specialized documentation should be moved to other documents and linked as needed.
+  - A README should at the very least answer: "what is this project" and "why is it necessary".
+  - A README should ideally also answer:
+    - how do I build it
+    - how do I run it
+    - how do I test it
+    - how do I deploy it
+  - The preferred answers to those questions are: `make build`, `make run`, `make test` and `make deploy`. Makefiles are preferable to literal instructions, language-specific build tool commands, ad hoc scripts.
 
 ## File contents
 
@@ -72,7 +73,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 - The ordering of things of equal importance within a file is another opportunity to convey meaning
     - e.g. implement the create operation before the delete operation.
 
-## Interface
+## Module interfaces
 
 ### Docstrings (i.e. public interface comments)
 - Docstrings are part of the interface of a module.
@@ -92,7 +93,7 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Excessively long names are distracting.
     - Natural names allow to reason by analogy and synthetic names prevent ambiguity, choose accordingly [EoC].
 
-## Implementation
+## Module implementations
 
 - Code duplication is not necessarily a problem, knowledge duplication probably is.
   - Removing duplicated code is not enough reason to introduce an abstraction.
