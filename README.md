@@ -25,11 +25,11 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Never sacrifice reader understanding for writer convenience.
 1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is it here?".
       - If these questions are hard to answer it could mean that: the names should be improved, docstrings or comments are missing, the component should be absorbed by another one, or it shouldn't exist at all.
-1. Simplicity is the most important consideration in a design[WiB][APoSD].
+1. Simplicity is the most important consideration in a design<sup>[WiB][APoSD]</sup>.
     - A system is simple when its design is easy to understand and change.
     - Accidental complexity needs to be minimized, essential complexity needs to be managed.
     - Essential complexity [may be removed](https://olano.dev/blog/a-note-on-essential-complexity/) by redefining the problem.
-    - Worse may be better[WiB][grug].
+    - Worse may be better<sup>[WiB][grug]</sup>.
 1. Modularity is the primary tool to manage complexity.
     - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
 1. Modules should be deep <sup>[APoSD]</sup>.
@@ -39,7 +39,7 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Shallow and pass-through modules are a red flag.
 1. [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
    - Things that need to be understood together should be closer together.
-1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
+1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers <sup>[CD]</sup>.
 
 ## Project organization
 
@@ -97,7 +97,7 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Naming should be consistent through the codebase.
     - Short names are not necessarily bad.
     - Excessively long names are distracting.
-    - Natural names allow to reason by analogy and synthetic names prevent ambiguity, choose accordingly [EoC].
+    - Natural names allow to reason by analogy and synthetic names prevent ambiguity, choose accordingly<sup>[EoC]</sup>.
 
 ## Module implementations
 
@@ -105,13 +105,13 @@ More important than any presctriptive opinion is the ability to trace it back to
   - Removing duplicated code is not enough reason to introduce an abstraction.
   - Encapsulating knowledge (aka hiding information) may be a good reason to introduce an abstraction.
 
-- Don't extract short, single use helper functions [APoSD][CD].
+- Don't extract short, single use helper functions<sup>[APoSD][CD]</sup>.
   - A short code block leaded by a clarifying comment does a better job.
 - Only extract single use helper functions if they can be understood on their own and by extracting them the readability of the calling function improves.
   - if understanding the _how_ of the helper is as relevant to the caller function as understanding the _what_, keep it inline.
   - The same rationale applies to extracting other types of modules (e.g. moving functions to separate files).
 
-- Use whitespace deliberately, for instance to separate blocks of code within a large function[APoSD].
+- Use whitespace deliberately, for instance to separate blocks of code within a large function<sup>[APoSD]</sup>.
 
 ### Comments
 - Comments are not a smell, they are an aid for communication.
@@ -136,7 +136,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 ## Tests
 
-- Prefer integration tests to unit tests[CD][grug].
+- Prefer integration tests to unit tests<sup>[CD][grug]</sup>.
 - There should be one integration test for each meaningful business/domain rule in the project [UTP].
   - The test name and its docstring should capture that domain knowledge, so one can ignore the implementation and get an aproximated use case specification:
   ```python
@@ -154,11 +154,11 @@ More important than any presctriptive opinion is the ability to trace it back to
   ```
 - Unit tests should be left for pieces of code that need to be exercised in all of its variations, are complicated to setup, or would be too distracting if exercised as integration tests: complex algorithms, state machine transitions, etc.
 
-- Not all code needs to have a test [UTP].
+- Not all code needs to have a test<sup>[UTP]</sup>.
   - Trivial code should not be tested.
   - Layers covered by integration tests should not be unit tested.
   - External dependencies should not be tested, except as part of overarching integration tests.
-- Code coverage should only be used to highlight detect untested areas, not as a target or indicator of quality [UTP].
+- Code coverage should only be used to highlight detect untested areas, not as a target or indicator of quality<sup>[UTP]</sup>.
 - Test code shouldn't have conditionals (`if`). Split into separate tests.
 
 - The system needs to be manually tested by a human, ideally in a production-like environment. No amount of automated test is an excuse to skip [some form](https://olano.dev/blog/verified-in-production/) of production verification.
@@ -167,7 +167,7 @@ More important than any presctriptive opinion is the ability to trace it back to
   - even if they are passing, occassional e2e testing are still necessary
 
 ### Mocks
-- Mocks of intermediate layers of the code are a red flag: they make the tests brittle, coupled to implementation details, with low resistance to refactoring, and low protection against regressions[UTP].
+- Mocks of intermediate layers of the code are a red flag: they make the tests brittle, coupled to implementation details, with low resistance to refactoring, and low protection against regressions<sup>[UTP]</sup>.
 - Only mock the system's observable behavior, i.e. its inputs and outputs.
   - Leverage mock libraries for this purpose, e.g. responses for requests, respx for httpx.
     - i.e. a refactor from `requests.request(url, method='GET')` to `requests.get(url)` should not break a test.
