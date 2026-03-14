@@ -223,8 +223,28 @@ More important than any presctriptive opinion is the ability to trace it back to
      - Information hiding can often be improved by making a class slightly larger.
   - When deciding whether to combine or separate, the goal is to reduce the complexity of the system as a whole and improve its modularity.
     - Subdivision usually results in more interfaces, and every new interface adds complexity.
-    - If the are dependencies between the components, then separation is bad. components are truly independent, then separation is good.
+    - If components are truly independent, then separation is good.
     - Bringing pieces of code together is most beneficial if they are closely related: they share information, they are used together, they overlap conceptually, it's hard to understand one without looking at the other.
+    - Length by itself is rarely a good reason for splitting up a method. You shouldn't break up a method unless it makes the overall system simpler.
+      - Large methods are fine if they have a simple signature and are easy to read: these methods are deep.
+  - The exceptions thrown by a class are part of its interface.
+    - Classes with lots of exceptions (declared or not) have complex interfaces.
+    - The best way to reduce the complexity damage caused by exception handling is to reduce the number of places where exceptions have to be handled.
+  - Good comments reduce complexity.
+     - Comments should capture information that was in the mind of the designer but couldn't be represented in the code
+     - Comments reduce cognitive load by providing information needed to change the code and by making it easier to ignore what is irrelevant.
+     - Comments can remove unknown unknowns, clarify dependencies, and fill in the gaps to eliminate obscurity.
+  - Comments should describe things that are not obvious from the code.
+     - Comments augment the code by providing information at a different level of detail.
+     - Developers should be able to understand the abstraction provided by a module without reading any code other than its external declarations. This is done by supplementing declarations with comments.
+     - If interface comments must also describe the implementation, then the class or method is shallow.
+     - Implementation comments should help readers understand _what_ the code is doing (not _how_ it does it).
+  - Good names reduce complexity.
+    - Names should be precise and consistent. A vague name is a red flag.
+    - If it's hard to pick a name for a component, it may not have a clean design.
+  - Code should be obvious.
+  - Things that matter should be emphasized and made more obvious; things don't matter should be hidden as much as possible.
+    - What matters can be emphasized through prominence, repetition, and centrality.
 
 [WiB] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
   - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
