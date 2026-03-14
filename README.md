@@ -90,10 +90,11 @@ More important than any presctriptive opinion is the ability to trace it back to
   TODO: good/bad example
 
 ### Names
-- when naming functions and methods, consider how they will called.
+    - When naming functions and methods, consider how they will be called.
     - Methods should assume the class/instance name as its namespace, i.e. `employee.create` not `employee.create_employee`.
     - Similarly, if the language supports it, functions should preferably assume the module name as its namespace.
 - Names should be meaningful and chosen deliberately.
+    - Naming should be consistent through the codebase.
     - Short names are not necessarily bad.
     - Excessively long names are distracting.
     - Natural names allow to reason by analogy and synthetic names prevent ambiguity, choose accordingly [EoC].
@@ -127,10 +128,10 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Ask yourself if the modules couldn't be rearrange to remove the constant.
     - Ask yourself it the constant shouldn't be a configurable app setting instead.
 
-### Type specificications
+### Type specifications
 - Don't sacrifice reader understanding for writer convenience (type linting and autocomplete)
     - Input and return type specs improve readability and can reduce the need of clarifying docstring.
-    - Awkward twists of inheritance chains and framework internals to satisfy the checker hurt readability and thuse are worse than no type specs at all.
+    - Awkward twists of inheritance chains and framework internals to satisfy the checker hurt readability and thus are worse than no type specs at all.
     - Prefer to loosen checker strictness to sprinkling the codebase with checker rule ignores
 
 ## Tests
@@ -183,7 +184,7 @@ More important than any presctriptive opinion is the ability to trace it back to
 
 - Don't use imported constants and enums in the tests, those are internals. The literals are the system observable behavior, use that.
 - When the payloads are short, it's better to inline and repeat them in each test for readability.
-- When payloads are big enough to distract from the purpose of the test, extract them to a helper at the bottom of the file.
+- When payloads are big enough to distract from the purpose of the test, extract them to a helper at the bottom of the file (not the top!).
 - Helpers should be extracted to a separate module only if they are generic enough to be relevant to multiple test scenarios.
   - If the helper is needed in a single module, keep it there.
   - Don't overcomplicate the helper to satisfy multiple testing scenarios; keep separate versions on the corresponding modules.
