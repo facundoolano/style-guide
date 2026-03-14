@@ -1,21 +1,25 @@
 # Facundo's programming style guide
 
-## Introduction
-
 This is a brain dump of my current coding preferences. I try to adhere to these in personal projects and I try to subtly move team projects in this direction (when it's not disruptive).
 
-I've occassionally found myself sending LLMs to read one of my blog posts before starting a task (e.g. for testing conventions), so rather than crafting weird `AGENTS.md` files I
-thought why not make a human readable guide to refer them to. If it's human-readable enough surely Claude can handle it.
+It's very much a work in progress, so far focused on capturing anything that comes to mind. It will likely require better organization to be used effectively.
 
-Why even bother with sytle if it looks like we won't be writing much code anymore? Maybe we won't, but at least for now we still have to read a lot of it, so I'd rather have the LLMs produce code that follows my preferences. I also posit that better style makes better design, and better design leads to better software, LLM or not. And, if it does turn out that [we won't need](https://olano.dev/blog/dangerously-skip/) to even read the code anymore, then indulge me on this, my own personal farewell to that side of the craft.
+At the bottom is a section with the source material where I got most of my ideas from, which I quoted and paraphrased liberally to support my specific style choices.
 
-Why so much discussion about software design in a coding style guide? I think that style is a spectrum that goes from trivial formatting decisions (tabs vs spaces, max line length, etc) to software design. The automatable aspects should be just automated away and are not worth discussing. It's the bits that spill into design that are worth being opinionated about: how we distribute code across files directly maps to system modularization; how we name thing strongly influeces how we understand, communicate about, and modify the system, and so on.
+
+## Introduction
+
+I use LLMs a lot for coding these days, as most devs I know, but still feel a bit sick about crafting elaborate prompts and weird `AGENTS.md` files, as if I could somehow imbue these tools with personality or good sense. I've occasionally found myself sending Claude to read one of my blog posts before starting a task (e.g. for testing conventions or to provide context about a project), so I thought why not focus on documenting more of my habits and preferences, for a human audience, for my own sake? If it's human-readable enough then surely Claude should be able to handle it.
+
+Why even bother with sytle if it looks like we won't be writing much code anymore? Maybe we won't, but at least for now we still have to read a lot of it, so I'd rather have LLMs produce it according to my preferences. I also posit that better style makes better design, and better design leads to better software, LLM or not. And, if it does turn out that [we won't need](https://olano.dev/blog/dangerously-skip/) to even read the code anymore, then indulge me on this, my own personal farewell to that side of the craft.
+
+You'll notice that much of this document is spent on software design. I think that programming style is a spectrum that goes from trivial formatting choices (tabs vs spaces, max line length, etc) to software design, even architecture. The automatable aspects should be just automated away and need no discussion. It's the bits that spill into design that are worth being opinionated about: how we distribute code across files directly maps to system modularization; how we name things strongly influeces how we understand, communicate about, and modify the system; and so on.
 
 More important than any presctriptive opinion is the ability to trace it back to some agreed upon principle. Opinions are made to be changed, and only by going back to common ground can we evolve our understanding and prevent dogmatism.
 
 ## Design Principles and Assumptions
 
-1. The right style is the preexisting, agreed-upon style in the project, if there's one. If there isn't, refer to this document.
+1. The right style is the preexisting, agreed-upon style of the project, if there's one. If there isn't, refer to this document.
 1. Code is a liability, not an asset.
     - Other things being equal (readability, complexity, economic incentives), the less code the better.
 1. The primary concern of the code writer needs to be the experience of future code readers.
@@ -31,9 +35,9 @@ More important than any presctriptive opinion is the ability to trace it back to
     - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
 1. Modules should be deep <sup>[APoSD]</sup>.
     - Interface complexity costs more than implementation complexity.
-    - Reducing local complexity at the expense of global complexity is usually not a good trade off.
-      - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
-      - Shallow and pass-through modules are a red flag.
+    - Reducing local complexity at the expense of global complexity is usually a bade trade off.
+    - Breaking modules apart typically increases global complexity by increasing the amount of interfaces.
+    - Shallow and pass-through modules are a red flag.
 1. [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
 1. Abstractions help with modularity, but each new abstraction (each new "concept") increases cognitive load on code readers [CD].
 
@@ -207,11 +211,17 @@ More important than any presctriptive opinion is the ability to trace it back to
       - An abstraction that includes unimportant details increases cognitive load.
       - An abstraction that omits important details results in obscurity.
       - The key to designing abstractions is to understand what is important, and to look for designs that minimize the amount of information that is important.
-  - Modules should be deep.
+  - It is more important for a module to have a simpler interface than a simple implementation.
       - The benefit provided by a module is its functionality. The cost (in terms of system complexity) is its interface.
       - The best modules are those whose interfaces are much simpler than their implementations. These are called "deep" modules.
       - A deep module is a good abstraction because only a small fraction of its internal complexity is visible to its users.
-      - Shallow modules are a red flag.
+     - Shallow modules are a red flag.
+     - Pass-through methods are a red flag.
+     - Information hiding can often be improved by making a class slightly larger.
+  - When deciding whether to combine or separate, the goal is to reduce the complexity of the system as a whole and improve its modularity.
+    - Subdivision usually results in more interfaces, and every new interface adds complexity.
+    - If the are dependencies between the components, then separation is bad. components are truly independent, then separation is good.
+    - Bringing pieces of code together is most beneficial if they are closely related: they share information, they are used together, they overlap conceptually, it's hard to understand one without looking at the other.
 
 [WiB] [Worse is Better](https://dreamsongs.com/RiseOfWorseIsBetter.html)
   - The design must be simple, both in implementation and interface. Simplicity is the most important consideration in a design.
