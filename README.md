@@ -251,7 +251,7 @@ More important than any prescriptive opinion is the ability to trace it back to 
     - Names should be precise and consistent. A vague name is a red flag.
     - If it's hard to pick a name for a component, it may not have a clean design.
   - Code should be obvious.
-    - Software should be desifned for ease of reading, not ease of writing.
+    - Software should be designed for ease of reading, not ease of writing.
     - "Obvious" is in the mind of the reader. If someone reading your code says it's not obvious, it's not obvious.
     - Things that make code obvious: good names, consistency, judicious use of white space, comments.
   - Things that matter should be emphasized and made more obvious; things don't matter should be hidden as much as possible.
