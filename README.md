@@ -34,7 +34,7 @@ More important than any prescriptive opinion is the ability to trace it back to 
     - Modules are fractal: project, file, namespace, class, function can be reasoned about as modules with interface and implementation.
 1. Modules should be deep <sup>[APoSD]</sup>.
     - Interface complexity costs more than implementation complexity.
-    - Reducing local complexity at the expense of global complexity is usually a bade trade off.
+    - Reducing local complexity at the expense of global complexity is usually a bad trade off.
     - Breaking modules apart frequently increases global complexity by adding more interfaces and separating things that depend on each other.
     - Shallow and pass-through modules are a red flag.
 1. [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) trumps Separation of Concerns <sup>[grug]</sup>
@@ -48,7 +48,7 @@ More important than any prescriptive opinion is the ability to trace it back to 
 - The internal directory structure of a project should be deliberate and meaningful.
   - Things that need to be frequently read together should be spacially close together.
   - In most cases it's better to group components by domain relevance than by its technical attributes
-    - e.g. to put a form class close to the endpoint where its used rather than close to other unrelated form classes
+    - e.g. to put a form class close to the endpoint where it's used rather than close to other unrelated form classes
     - e.g. put the employee type enum next to the employee model, not next to other project enums
 
 - Assume that a README file will be read from top to bottom by anyone getting familiar with the project.
