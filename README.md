@@ -22,7 +22,7 @@ More important than any prescriptive opinion is the ability to trace it back to 
 1. Code is a liability, not an asset.
     - Other things being equal (readability, complexity, economic incentives), the less code the better.
 1. The primary concern of the code writer needs to be the experience of future code readers.
-    - Never sacrifice reader understanding for writer convenience.
+    - Never sacrifice reader understanding for writer convenience <sup>[APoSD][grug]</sup>.
 1. For any piece of code, there should be enough context in the codebase for a reader to answer "what is this?" and "why is it here?".
       - If these questions are hard to answer it could mean that: the names should be improved, docstrings or comments are missing, the component should be absorbed by another one, or it shouldn't exist at all.
 1. Simplicity is the most important consideration in a design<sup>[WiB][APoSD]</sup>.
@@ -251,6 +251,9 @@ More important than any prescriptive opinion is the ability to trace it back to 
     - Names should be precise and consistent. A vague name is a red flag.
     - If it's hard to pick a name for a component, it may not have a clean design.
   - Code should be obvious.
+    - Software should be desifned for ease of reading, not ease of writing.
+    - "Obvious" is in the mind of the reader. If someone reading your code says it's not obvious, it's not obvious.
+    - Things that make code obvious: good names, consistency, judicious use of white space, comments.
   - Things that matter should be emphasized and made more obvious; things don't matter should be hidden as much as possible.
     - What matters can be emphasized through prominence, repetition, and centrality.
 
